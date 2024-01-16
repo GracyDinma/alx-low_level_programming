@@ -1,11 +1,14 @@
 #include <stdio.h>
+
 /**
- * main - c program that prints
+ * main - c program that prints.
  *
- * Return: Always 0.
+ * Description: program that prints a string.
+ *
+ * Return: Always 0 (Success).
  */
 int main(void)
 {
-	printf("\"Programming is like building a multilingual puzzle.\n");
+	puts("\"Programming is like building a multilingual puzzle.\n");
 		return (0);
 }
