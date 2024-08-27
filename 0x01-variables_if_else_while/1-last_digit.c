@@ -3,8 +3,8 @@
 #include <stdio.h>
 
 /**
- * main - Entry point
- * Description: print the last digit
+ * main - Prints the last digit
+ *
  * Return: 0 (success)
  */
 int main(void)
