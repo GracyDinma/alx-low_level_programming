@@ -1,49 +1,64 @@
 #include "lists.h"
+
 /**
- * insert_nodeint_at_index - inserts a new node at a given position
- * @head: double pointer to the head of the listint list
- * @idx: is the index of the list where the new node should be added
- * @n: is the data
- * Return: Null if it failed or the address of the new node
+ * insert_nodeint_at_index - returns the nth node of a linked list
+ * @head: pointer to the head of the list
+ * @idx: index of the node to be added
+ * @n: content of the new node
+ *
+ * Return: the address of the node
  */
 listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
 {
-	listint_t *headaux;
-	listint_t *newnode;
-	unsigned int size;
+	listint_t *new_node = NULL;
+	listint_t *previous_node = NULL;
+	unsigned int i = 0;
 
-	size = 0;
-	/* allocate memory for the newnode */
-	newnode = malloc(sizeof(listint_t));
-	/* task condition */
-	if (newnode == NULL)
+	new_node = malloc(sizeof(listint_t));
+	if (new_node == NULL || idx > listint_len(*head))
+	{
+		free(new_node);
 		return (NULL);
-	/* n keeps being the data of the new node */
-	newnode->n = n;
-	/*  given the case, if index is cero then newnode is equal to head */
-	/* and return newnode in head of the list */
-	if (idx == 0)
-	{
-		newnode->next = *head;
-		*head = newnode;
-		return (newnode);
 	}
-	/* usea de auxiliar */
-	headaux = *head;
-	/* if index is different to the position */
-	/* counter size keeps running and headaux moves to the next node */
-	while (headaux != NULL && size != idx - 1)
+	new_node->n = n;
+	new_node->next = NULL;
+	while (head != NULL)
 	{
-		size++;
-		headaux = headaux->next;
+		if (i == idx)
+		{
+			if (i == 0)
+			{
+				new_node->next = *head;
+				*head = new_node;
+				return (new_node);
+			}
+			new_node->next = previous_node->next;
+			previous_node->next = new_node;
+			return (new_node);
+		}
+		else if ((i + 1) == idx)
+			previous_node = *head;
+		head = &((*head)->next);
+		i++;
 	}
-	/* if index and size are equal and non NULL */
-	if (size == idx - 1 && headaux != NULL)
-	{
-		newnode->next = headaux->next;
-		headaux->next = newnode;
-		return (newnode);
-	}
-	free(newnode);
 	return (NULL);
+}
+
+/**
+ * listint_len - counts the number of nodes in a linked list
+ * @h: head of the list
+ *
+ * Return: the number of elements
+ */
+size_t listint_len(const listint_t *h)
+{
+	const listint_t *cursor = h;
+	size_t count = 0;
+
+	while (cursor != NULL)
+	{
+		count += 1;
+		cursor = cursor->next;
+	}
+	return (count);
 }
