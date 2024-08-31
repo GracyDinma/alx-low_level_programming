@@ -1,44 +1,40 @@
 #include "lists.h"
 #include <stdlib.h>
-
 /**
- * delete_nodeint_at_index - function that deletes the node at index,
- * index of a listint_t linked list.
- * @head: pointer to pointer to the head of linked list.
- * @index:index of the node that should be deleted. Index starts at 0.
- *
- * Return:  1 if it succeeded, -1 if it failed.
+ * delete_nodeint_at_index - deletes the nodet at index of listint_t list
+ * @head: double pointer to the head of the list
+ * @index: index of the node should be deleted
+ * Return: 1 if it succeeded and -1 if it failed
  */
-
 int delete_nodeint_at_index(listint_t **head, unsigned int index)
 {
-	listint_t *temp_variable, *temp_variable2;
-	unsigned int i = 0;
-	/* if there is no list then return NULL */
-	if (head == NULL || *head == NULL)
-		return (-1);
-	/* check for index 0 */
-	if (index == 0)
+	listint_t *node;
+	unsigned int pos;
+
+	pos = 0;
+	while (*head)
 	{
-		temp_variable = *head;
-		*head = (*head)->next;
-		free(temp_variable);
-		return (1);
+		/* with the position we find the index we need to delete */
+		if (pos == index)
+		{
+			/* node is the one we want to delete */
+			/* that is in the index position */
+			/* so we point to that  node through *head */
+			node = (*head);
+			/* *head moves to next node */
+			(*head) = (*head)->next;
+			/* node remains in the index position and we deleted */
+			/* releasing that memory */
+			free(node);
+			/* success return 1 */
+			return (1);
+		}
+		/* if the position isn't equal to the index we're looking for */
+		/* move head to next */
+		head = &(*head)->next;
+		/* and counte position keeps incrementing */
+		pos++;
 	}
-	/* assign the temporary variable as the first node */
-	temp_variable = *head;
-	/* traverse the list till the index */
-	while (i != index - 1 && temp_variable->next != NULL)
-	{
-		temp_variable = temp_variable->next;
-		i++;
-	}
-	if (i == index - 1 && temp_variable->next != NULL)
-	{
-		temp_variable2 = temp_variable->next;
-		temp_variable->next = temp_variable2->next;
-		free(temp_variable2);
-		return (1);
-	} /* by here the code has failed so we return -1 */
+	/* failed return -1 */
 	return (-1);
 }
